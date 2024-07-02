@@ -1,6 +1,6 @@
-web: gunicorn run:app
+# web: gunicorn run:app
 
-# web: python run.py
+web: python run.py
 # web: gunicorn gettingstarted.wsgi
 
 
