@@ -5,7 +5,11 @@ Permite detectar la cara de una persona a través de la cámara de un dispositiv
 
 <!-- Asegúrese de que al menos una instancia de la aplicación se está ejecutando:
 heroku ps:scale web=1
-heroku logs --tail -->
+heroku logs --tail
+
+
+git push heroku master
+ -->
 
 
 

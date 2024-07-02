@@ -1,10 +1,21 @@
 from flask import render_template, Response, jsonify, Blueprint
+from pathlib import Path
 import os
 import cv2
 import uuid
 import base64
 
 bp = Blueprint('v1', __name__, url_prefix='/v1')
+
+
+# BASE_DIR = Path(__file__).resolve().parent.parent
+
+# path = BASE_DIR / "facer/static"
+# pathFile = path / "media/"
+
+# print(f"BASE_DIR: {BASE_DIR}")
+# print(f"path: {path}")
+# print(f"pathFile: {pathFile}")
 
 detector = cv2.CascadeClassifier('facer/Haarcascades/haarcascade_frontalface_default.xml')
 path = 'facer/static'
@@ -40,6 +51,7 @@ def guardar_foto():
     photoName = ''
     bytesFrame = ''
     statusCapture = False
+
     # Almacenamos la imagen solo si se detecto la cara
     if( len(faces) > 0 ):
         # Guaradamos la imagen en un archivo
@@ -69,6 +81,12 @@ def guardar_foto():
             rostro = image[y1:y2, x1:x2]
 
             resizeImg = cv2.resize(rostro, (450, 450), interpolation=cv2.INTER_CUBIC)
+            # Define la ruta completa al archivo de imagen a guardar
+            """
+                # Guarda la imagen usando la ruta completa
+                # image_path = pathFile / photoName
+                # cv2.imwrite(str(image_path), resizeImg)
+            """
             cv2.imwrite(pathFile + photoName, resizeImg)
             # Si necesitas la imagen en formato base64:
             # __, buffer = cv2.imencode('.jpg', resizeImg)
@@ -108,6 +126,7 @@ def guardar_foto():
             'bytesFrame': bytesFrame,
         }
     )
+
 
 # Iniciamos el preceso
 @bp.route('/start', methods=['POST'])
