@@ -3,6 +3,10 @@ Proyecto creado con [Flask](https://flask.palletsprojects.com/en/3.0.x/installat
 Permite detectar la cara de una persona a través de la cámara de un dispositivo desde la WEB.
 
 
+<!-- Asegúrese de que al menos una instancia de la aplicación se está ejecutando:
+heroku ps:scale web=1
+heroku logs --tail -->
+
 
 
 - Verificar python:
