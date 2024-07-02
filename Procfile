@@ -1,6 +1,7 @@
+web: gunicorn run:app
+
 # web: python run.py
 # web: gunicorn gettingstarted.wsgi
-web: gunicorn run:app
 
 
 # Uncomment this `release` process if you are using a database, so that Django's model
