@@ -2,6 +2,7 @@ from flask import render_template, Response, jsonify, Blueprint
 import os
 import cv2
 import uuid
+import base64
 
 bp = Blueprint('v1', __name__, url_prefix='/v1')
 
@@ -32,7 +33,7 @@ def capture_by_frames():
         __, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 # Almacenamos y retornamos la url de la foto capturada
 def guardar_foto():
@@ -46,18 +47,53 @@ def guardar_foto():
         ok, image = camera.read()
         statusCapture = ok
         if ok:
-            resizeImg = ''
+            """
+            """
+            # ? Código actualizado
 
-            # for (x, y, w, h) in faces:
-            #     xx = x + 150
-            #     yy = y + 150
-            #     ww = w + 150
-            #     hh = h + 150
-            #     rostro = image[y:yy+hh, x:xx+ww]
-            #     resizeImg = cv2.resize(rostro, (450,450), interpolation=cv2.INTER_CUBIC) # Obtenemos el rostro de 150x150px
-            cv2.imwrite(pathFile + photoName, image)
-            # bytesFrame = base64.b64encode(b'texto a codificar')
-            # bytesFrame = base64.encodestring(image)
+            (x, y, w, h) = faces[0]  # Tomamos la primera cara detectada
+            # rostro = image[y:y + h, x:x + w]
+
+            # Asegurarnos de que las coordenadas del recorte están dentro de los límites de la imagen
+            # y1, y2 = max(0, y), min(y + h, image.shape[0])
+            # x1, x2 = max(0, x), min(x + w, image.shape[1])
+            # rostro = image[y1:y2, x1:x2]
+
+            # Añadimos un margen de 50 píxeles alrededor del rostro
+            # margin = 150
+            margin = 100
+            y1 = max(0, y - margin)
+            y2 = min(image.shape[0], y + h + margin)
+            x1 = max(0, x - margin)
+            x2 = min(image.shape[1], x + w + margin)
+            rostro = image[y1:y2, x1:x2]
+
+            resizeImg = cv2.resize(rostro, (450, 450), interpolation=cv2.INTER_CUBIC)
+            cv2.imwrite(pathFile + photoName, resizeImg)
+            # Si necesitas la imagen en formato base64:
+            # __, buffer = cv2.imencode('.jpg', resizeImg)
+            # bytesFrame = base64.b64encode(buffer).decode('utf-8')
+
+            if photoName != '':
+                __, buffer = cv2.imencode('.jpg', resizeImg)
+                bytesFrame = base64.b64encode(buffer).decode('utf-8')
+
+            """
+                # ? Código anterior
+
+                resizeImg = ''
+
+                # for (x, y, w, h) in faces:
+                #     xx = x + 150
+                #     yy = y + 150
+                #     ww = w + 150
+                #     hh = h + 150
+                #     rostro = image[y:yy+hh, x:xx+ww]
+                #     resizeImg = cv2.resize(rostro, (450,450), interpolation=cv2.INTER_CUBIC) # Obtenemos el rostro de 150x150px
+                cv2.imwrite(pathFile + photoName, image)
+                # bytesFrame = base64.b64encode(b'texto a codificar')
+                # bytesFrame = base64.encodestring(image)
+            """
 
         # if photoName != '':
         #     __, buffer = cv2.imencode('.jpg', image)
@@ -69,7 +105,7 @@ def guardar_foto():
             'status': statusCapture,
             'path': pathFile,
             'photoName': photoName,
-            # 'bytesFrame': bytesFrame,
+            'bytesFrame': bytesFrame,
         }
     )
 
