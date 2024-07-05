@@ -8,7 +8,8 @@ import base64
 bp = Blueprint('v1', __name__, url_prefix='/v1')
 
 
-# BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve()
 
 # path = BASE_DIR / "facer/static"
 # pathFile = path / "media/"
@@ -16,8 +17,9 @@ bp = Blueprint('v1', __name__, url_prefix='/v1')
 # print(f"BASE_DIR: {BASE_DIR}")
 # print(f"path: {path}")
 # print(f"pathFile: {pathFile}")
-
-detector = cv2.CascadeClassifier('facer/Haarcascades/haarcascade_frontalface_default.xml')
+uriHaarcascades = 'facer/Haarcascades/haarcascade_frontalface_default.xml'
+# uriHaarcascades = BASE_DIR / "facer/Haarcascades/haarcascade_frontalface_default.xml"
+detector = cv2.CascadeClassifier(uriHaarcascades)
 path = 'facer/static'
 pathFile = path+'/media/'
 
@@ -137,6 +139,7 @@ def index():
         {
             'status': True,
             'message': 'Inicializado',
+            'description_path': BASE_DIR,
         }
     )
     # return render_template('index.html')

@@ -15,59 +15,59 @@ git push heroku master
 
 - Verificar python:
 ```bash
-    python --version
+python --version
 ```
 
 - Si aún no tienes virtualenv instalado, instálalo ejecutando:
 ```bash
-    pip install virtualenv
+pip install virtualenv
 ```
 
 - Crear entorno virtual:
 ```bash
-    # python -m venv nombre_del_entorno
+# python -m venv nombre_del_entorno
     
-    py -3 -m venv .venv
+py -3 -m venv .venv
 ```
 
 - Activación de entorno virtual:
 ```bash
-    # Windows OS
-    .venv\Scripts\activate
+# Windows OS
+.venv\Scripts\activate
 
-    # macOS/Linux
-    .venv/bin/activate
+# macOS/Linux
+.venv/bin/activate
 ```
 - Desactivación de entorno virtual:
 ```bash
-    # Windows OS
-    deactivate
+# Windows OS
+deactivate
 
-    # macOS/Linux
-    source bin/deactivate
+# macOS/Linux
+source bin/deactivate
 ```
 
 - Creación de archivo de dependencias:
 ```bash
-    python -m pip freeze > requirements.txt
+python -m pip freeze > requirements.txt
 ```
 - Instala las dependencias:
 ```bash
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 - Verifica la instalación:
 ```bash
-    pip list
+pip list
 ```
 
 - Instalar Flask:
 ```bash
-    pip install Flask
+pip install Flask
 ```
 
 - Ejecutar el programa:
 ```bash
-    python run.py
+python run.py
 ```
 
