@@ -1,0 +1,15 @@
+
+Asegúrese de que al menos una instancia de la aplicación se está ejecutando:
+heroku ps:scale web=1
+heroku logs --tail
+
+
+git push heroku master
+
+
+Manipulaciones comunes de nombre de ruta:
+https://docs.python.org/es/3.8/library/os.path.html
+
+
+
+http://18.204.223.211:4521/
