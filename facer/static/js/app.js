@@ -94,8 +94,8 @@
         .then( response => {
             // console.info(response);
             // videoCapture.setAttribute('height', '410px')
-            videoCapture.src = uriCapture;
             photoCaptured.src = ''
+            videoCapture.src = uriCapture;
             // const btnRestart = document.querySelector(`#btnRestart`);
             // btnRestart.classList.remove('hidden')
             btnStart.style.visibility = 'hidden';
@@ -121,24 +121,31 @@
         asycData('/v1/take-photos', 'POST', 'json', [])
         .then( response => {
             // console.info(response);
-            const { status, path, photoName } = response;
-            if( status ) {
-                // photoCaptured.src = `${location.origin}/${path}${photoName}`
-                photoCaptured.src = `${location.origin}/static/media/${photoName}`;
-
-                const b64Img = getBase64Image(photoCaptured);
-                localStorage.setItem('capture', b64Img);
-
-                
-                // videoCapture.setAttribute('height', 'auto')
-                videoCapture.src = '';
-                videoCapture.setAttribute('hidden', true); // ? Ocultamos la imagen de captura
-                btnNoCapture.classList.remove('hidden');
-                btnCheckCapture.classList.remove('hidden');
-                // mainActionsCtrls.style.display = 'flex';
-
+            const { status, message, path, photoName } = response;
+            if( !status ) {
+                Swal.fire({
+                    icon: 'error',
+                    title: message,
+                    text: 'Vuelva a inicar la cámara',
+                }).then( result => btnNoCapture.click() )
                 stopCamera(); // Detenemos la captura de video
+                return;
             }
+            // photoCaptured.src = `${location.origin}/${path}${photoName}`
+            photoCaptured.src = `${location.origin}/static/media/${photoName}`;
+
+            const b64Img = getBase64Image(photoCaptured);
+            localStorage.setItem('capture', b64Img);
+
+            
+            // videoCapture.setAttribute('height', 'auto')
+            videoCapture.src = '';
+            videoCapture.setAttribute('hidden', true); // ? Ocultamos la imagen de captura
+            btnNoCapture.classList.remove('hidden');
+            btnCheckCapture.classList.remove('hidden');
+            // mainActionsCtrls.style.display = 'flex';
+
+            stopCamera(); // Detenemos la captura de video
         })
         .catch( error => {
             console.log(error);

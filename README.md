@@ -9,6 +9,10 @@ heroku logs --tail
 
 
 git push heroku master
+
+
+Manipulaciones comunes de nombre de ruta:
+https://docs.python.org/es/3.8/library/os.path.html
  -->
 
 
@@ -26,8 +30,12 @@ pip install virtualenv
 - Crear entorno virtual:
 ```bash
 # python -m venv nombre_del_entorno
-    
+
+# Windows OS
 py -3 -m venv .venv
+
+# macOS/Linux
+python3 -m venv .venv
 ```
 
 - Activación de entorno virtual:
@@ -36,7 +44,7 @@ py -3 -m venv .venv
 .venv\Scripts\activate
 
 # macOS/Linux
-.venv/bin/activate
+. .venv/bin/activate
 ```
 - Desactivación de entorno virtual:
 ```bash
@@ -69,5 +77,10 @@ pip install Flask
 - Ejecutar el programa:
 ```bash
 python run.py
+```
+
+- Para restablecer el estado de autorización de la aplicación:
+```bash
+tccutil reset Camera
 ```
 
